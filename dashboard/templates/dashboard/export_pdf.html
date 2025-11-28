@@ -1,0 +1,57 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+<div class="max-w-4xl mx-auto">
+  <header class="mb-6 flex items-center justify-between">
+    <h1 class="text-3xl font-bold">AgriYield — Report Preview</h1>
+    <a href="{% url 'export_pdf' %}" class="px-4 py-2 bg-gray-800 text-white rounded">Download PDF</a>
+  </header>
+
+  <section class="bg-white p-6 rounded shadow mb-6">
+    <h2 class="text-xl font-semibold mb-2">Summary</h2>
+    {% if stats %}
+      <ul class="space-y-2">
+        {% for s in stats %}
+          <li class="border-b pb-2">
+            <strong>{{ s.region }}</strong> —
+            Temp: {{ s.mean_temp|floatformat:2 }} °C,
+            Rain: {{ s.mean_rain|floatformat:2 }} mm/day,
+            Soil: {{ s.mean_moisture|floatformat:2 }} %
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No statistics available.</p>
+    {% endif %}
+    <div class="mt-4">
+      <strong>Average Yield Index:</strong> {{ yield_avg|default:"N/A" }}
+    </div>
+  </section>
+
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {% if plots.yield_chart %}
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold mb-2">Yield Index Chart</h3>
+        <img src="data:image/png;base64,{{ plots.yield_chart }}" alt="Yield chart" class="w-full"/>
+      </div>
+    {% endif %}
+
+    {% if plots.rain_trend %}
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold mb-2">Rain Trend</h3>
+        <img src="data:image/png;base64,{{ plots.rain_trend }}" alt="Rain trend" class="w-full"/>
+      </div>
+    {% endif %}
+
+    {% if plots.temp_trend %}
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-semibold mb-2">Temperature Trend</h3>
+        <img src="data:image/png;base64,{{ plots.temp_trend }}" alt="Temp trend" class="w-full"/>
+      </div>
+    {% endif %}
+  </section>
+
+  <footer class="mt-6 text-sm text-gray-600">
+    Generated on {{ now|date:"Y-m-d H:i" }}
+  </footer>
+</div>
+{% endblock %}

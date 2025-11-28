@@ -1,0 +1,36 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+<h2 class="text-2xl mb-4">Model Results</h2>
+
+<div class="grid grid-cols-3 gap-4">
+  {% for s in stats %}
+    <div class="bg-white p-4 rounded shadow">
+      <h4 class="font-semibold">{{ s.region }}</h4>
+      <p>Mean Temp: {{ s.mean_temp|floatformat:2 }} °C</p>
+      <p>Mean Rain: {{ s.mean_rain|floatformat:2 }} mm/day</p>
+      <p>Mean Moisture: {{ s.mean_moisture|floatformat:2 }} %</p>
+    </div>
+  {% endfor %}
+</div>
+
+<div class="mt-6 bg-white p-4 rounded shadow">
+  <h3 class="text-lg mb-2">Yield Index Chart</h3>
+  <img src="data:image/png;base64,{{ plots.yield_chart }}" />
+</div>
+
+<div class="mt-6 grid grid-cols-2 gap-6">
+  <div class="bg-white p-4 rounded shadow">
+    <h4>Rain Trend — Region A</h4>
+    <img src="data:image/png;base64,{{ plots.rain_trend }}" />
+  </div>
+  <div class="bg-white p-4 rounded shadow">
+    <h4>Temp Trend — Region A</h4>
+    <img src="data:image/png;base64,{{ plots.temp_trend }}" />
+  </div>
+</div>
+
+<div class="mt-6 flex gap-4">
+  <a href="{% url 'predict' %}" class="px-4 py-2 bg-blue-600 text-white rounded">Predict</a>
+  <a href="{% url 'export_pdf' %}" class="px-4 py-2 bg-gray-800 text-white rounded">Export PDF</a>
+</div>
+{% endblock %}

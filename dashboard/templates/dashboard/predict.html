@@ -1,0 +1,24 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+
+<h2 class="text-3xl font-bold mb-6">AI Yield Prediction</h2>
+
+<form method="post" class="bg-white p-6 rounded-xl shadow space-y-4">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <button type="submit" class="px-6 py-2 bg-green-700 text-white rounded-lg hover:bg-green-600">
+    Predict
+  </button>
+</form>
+
+{% if result %}
+<div class="mt-6 bg-white p-6 rounded-xl shadow">
+    <h3 class="text-xl font-semibold">Prediction Result</h3>
+    <p class="mt-2 text-lg">Predicted Yield Index: 
+       <span class="font-bold text-green-700">{{ result }}</span>
+    </p>
+</div>
+{% endif %}
+
+{% endblock %}
