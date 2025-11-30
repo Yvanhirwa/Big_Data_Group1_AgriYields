@@ -1,0 +1,50 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Analysis History</h1>
+
+    {% if datasets %}
+    <div class="space-y-4">
+        {% for dataset in datasets %}
+        <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800">{{ dataset.region }}</h3>
+                    <p class="text-gray-500 text-sm mt-1">{{ dataset.uploaded_at|date:"M d, Y H:i" }}</p>
+                </div>
+                <div class="flex gap-2">
+                    <a href="{% url 'results' dataset.analysis.id %}" class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700">
+                        View
+                    </a>
+                    <a href="{% url 'export_pdf' dataset.analysis.id %}" class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
+                        PDF
+                    </a>
+                    <form method="POST" action="{% url 'delete_analysis' dataset.analysis.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" onclick="return confirm('Delete this analysis?')" class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Region Stats Summary -->
+            <div class="mt-4 grid grid-cols-2 md:grid-cols-5 gap-3">
+                {% for stat in dataset.stats.all %}
+                <div class="bg-gray-50 p-3 rounded">
+                    <p class="font-semibold text-sm text-gray-700">{{ stat.region }}</p>
+                    <p class="text-xs text-gray-500 mt-1">Yield: <span class="font-bold text-green-600">{{ stat.yield_index|floatformat:2 }}</span></p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg">
+        <p class="text-yellow-800">No analyses yet. <a href="{% url 'upload_and_run' %}" class="underline font-semibold">Create one now</a></p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

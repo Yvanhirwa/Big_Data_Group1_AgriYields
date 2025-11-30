@@ -1,0 +1,20 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+<div class="max-w-4xl mx-auto py-12 px-6">
+  <h1 class="text-3xl font-bold mb-4">About {{ project_name }}</h1>
+  <p class="text-gray-700 mb-6"> {{ description }}</p>
+
+  <h2 class="text-xl font-semibold mb-2">What it does</h2>
+  <ul class="list-disc ml-6 mb-6 text-gray-700">
+    <li>Upload temperature, rainfall and soil moisture CSV files and run an analysis.</li>
+    <li>Visualise trends and region-level yield indices.</li>
+    <li>Train a simple ML model from uploaded data and predict yield for new parameters.</li>
+    <li>Export reports to PDF.</li>
+  </ul>
+
+  <h2 class="text-xl font-semibold mb-2">Team</h2>
+  <p class="text-gray-700 mb-6">Your team or project information here.</p>
+
+  <a href="{% url 'landing' %}" class="px-4 py-2 border rounded">← Back</a>
+</div>
+{% endblock %}
