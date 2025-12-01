@@ -16,7 +16,7 @@ urlpatterns = [
 
     # Auth - use custom views instead of Django's generic views
     path('signup/', views.signup_view, name='signup'),
-    path('login/', views.login_redirect_view, name='login'),  # redirect to dashboard (modal shows)
+    path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
 
     # Password reset flow

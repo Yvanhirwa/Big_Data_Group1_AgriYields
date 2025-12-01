@@ -53,25 +53,25 @@
             <h2 class="text-2xl font-bold text-gray-800 mb-6">Upload CSV Files</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-green-500 transition">
-                    <label class="block text-gray-700 font-semibold mb-3">{{ form.temp_csv.label }}</label>
+                    <label class="block text-gray-700 font-semibold mb-3"><i class="fas fa-thermometer-half mr-2 text-red-500"></i>{{ form.temp_csv.label }}</label>
                     {{ form.temp_csv }}
                     <p class="text-gray-500 text-sm mt-2">Required: Temperature data</p>
                 </div>
                 
                 <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-blue-500 transition">
-                    <label class="block text-gray-700 font-semibold mb-3">{{ form.rain_csv.label }}</label>
+                    <label class="block text-gray-700 font-semibold mb-3"><i class="fas fa-cloud-rain mr-2 text-blue-500"></i>{{ form.rain_csv.label }}</label>
                     {{ form.rain_csv }}
                     <p class="text-gray-500 text-sm mt-2">Required: Rainfall data</p>
                 </div>
                 
                 <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-green-600 transition">
-                    <label class="block text-gray-700 font-semibold mb-3">{{ form.moisture_csv.label }}</label>
+                    <label class="block text-gray-700 font-semibold mb-3"><i class="fas fa-tint mr-2 text-green-600"></i>{{ form.moisture_csv.label }}</label>
                     {{ form.moisture_csv }}
                     <p class="text-gray-500 text-sm mt-2">Required: Soil moisture data</p>
                 </div>
                 
                 <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-orange-500 transition">
-                    <label class="block text-gray-700 font-semibold mb-3">{{ form.crop_csv.label }}</label>
+                    <label class="block text-gray-700 font-semibold mb-3"><i class="fas fa-leaf mr-2 text-orange-500"></i>{{ form.crop_csv.label }}</label>
                     {{ form.crop_csv }}
                     <p class="text-gray-500 text-sm mt-2">Required: Crop type data</p>
                 </div>
@@ -81,23 +81,23 @@
         <!-- Submit Button -->
         <div class="flex gap-4">
             <button type="submit" class="flex-1 px-6 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition text-lg">
-                🚀 Run Analysis
+                <i class="fas fa-cogs mr-2"></i>Run Analysis
             </button>
             <a href="{% url 'dashboard_home' %}" class="px-6 py-3 bg-gray-600 text-white font-bold rounded-lg hover:bg-gray-700 transition">
-                ← Cancel
+                <i class="fas fa-times"></i> Cancel
             </a>
         </div>
     </form>
 
     <!-- Help Section -->
     <div class="bg-blue-50 rounded-lg shadow-lg p-8 mt-8 border-l-4 border-blue-500">
-        <h3 class="text-xl font-bold text-gray-800 mb-4">📋 CSV File Requirements</h3>
+        <h3 class="text-xl font-bold text-gray-800 mb-4"><i class="fas fa-info-circle"></i> CSV File Requirements</h3>
         <ul class="space-y-2 text-gray-700">
-            <li>✓ All files must be in CSV format</li>
-            <li>✓ Headers in first row</li>
-            <li>✓ Numeric data only (except headers)</li>
-            <li>✓ Same number of rows in all files</li>
-            <li>✓ No missing values</li>
+            <li><i class="fas fa-check-circle text-green-500"></i> All files must be in CSV format</li>
+            <li><i class="fas fa-check-circle text-green-500"></i> Headers in first row</li>
+            <li><i class="fas fa-check-circle text-green-500"></i> Numeric data only (except headers)</li>
+            <li><i class="fas fa-check-circle text-green-500"></i> Same number of rows in all files</li>
+            <li><i class="fas fa-check-circle text-green-500"></i> No missing values</li>
         </ul>
     </div>
 </div>

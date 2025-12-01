@@ -9,10 +9,10 @@
         </div>
         <div class="flex gap-3">
             <a href="{% url 'export_pdf' analysis.id %}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                📥 Download PDF
+                <i class="fas fa-download"></i> Download PDF
             </a>
             <a href="{% url 'dashboard_home' %}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">
-                ← Back to Dashboard
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
             </a>
         </div>
     </header>
@@ -53,35 +53,35 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {% if plots.yield_chart %}
             <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-700 mb-4">📊 Yield Index Chart</h3>
+                <h3 class="text-lg font-semibold text-gray-700 mb-4"><i class="fas fa-chart-bar"></i> Yield Index Chart</h3>
                 <img src="data:image/png;base64,{{ plots.yield_chart }}" alt="Yield Chart" class="w-full rounded"/>
             </div>
             {% endif %}
 
             {% if plots.temp_trend %}
             <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-700 mb-4">🌡️ Temperature Trend</h3>
+                <h3 class="text-lg font-semibold text-gray-700 mb-4"><i class="fas fa-thermometer-half"></i> Temperature Trend</h3>
                 <img src="data:image/png;base64,{{ plots.temp_trend }}" alt="Temp Trend" class="w-full rounded"/>
             </div>
             {% endif %}
 
             {% if plots.rain_trend %}
             <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-700 mb-4">🌧️ Rainfall Trend</h3>
+                <h3 class="text-lg font-semibold text-gray-700 mb-4"><i class="fas fa-cloud-showers-heavy"></i> Rainfall Trend</h3>
                 <img src="data:image/png;base64,{{ plots.rain_trend }}" alt="Rain Trend" class="w-full rounded"/>
             </div>
             {% endif %}
 
             {% if plots.scatter %}
             <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-700 mb-4">📈 Scatter Analysis</h3>
+                <h3 class="text-lg font-semibold text-gray-700 mb-4"><i class="fas fa-chart-line"></i> Scatter Analysis</h3>
                 <img src="data:image/png;base64,{{ plots.scatter }}" alt="Scatter" class="w-full rounded"/>
             </div>
             {% endif %}
 
             {% if plots.heatmap %}
             <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 lg:col-span-2">
-                <h3 class="text-lg font-semibold text-gray-700 mb-4">🔥 Correlation Heatmap</h3>
+                <h3 class="text-lg font-semibold text-gray-700 mb-4"><i class="fas fa-fire"></i> Correlation Heatmap</h3>
                 <img src="data:image/png;base64,{{ plots.heatmap }}" alt="Heatmap" class="w-full rounded"/>
             </div>
             {% endif %}
@@ -120,13 +120,13 @@
     <!-- Action Buttons -->
     <div class="mt-8 flex flex-wrap gap-3">
         <a href="{% url 'predict' %}" class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-semibold">
-            🤖 Make Prediction
+            <i class="fas fa-robot"></i> Make Prediction
         </a>
         <a href="{% url 'history' %}" class="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-semibold">
-            📚 View All Analyses
+            <i class="fas fa-history"></i> View All Analyses
         </a>
         <a href="{% url 'upload_and_run' %}" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold">
-            ➕ New Analysis
+            <i class="fas fa-plus"></i> New Analysis
         </a>
     </div>
 </div>

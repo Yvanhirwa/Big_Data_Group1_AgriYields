@@ -5,7 +5,7 @@ from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
-from .forms import UploadFilesForm, PredictForm
+from .forms import UploadFilesForm, PredictForm, SignUpForm
 from .models import DataSet, RegionStats, AnalysisResult
 from .ml.model import run_analysis
 from .ml.train_model import train_and_save, load_model
@@ -14,6 +14,7 @@ import pandas as pd, os, tempfile
 from datetime import datetime
 from django.contrib.auth.forms import UserCreationForm
 
+@login_required
 def dashboard_home(request):
     latest_analysis = AnalysisResult.objects.first()
     latest_dataset = DataSet.objects.first()
@@ -46,6 +47,7 @@ def dashboard_home(request):
 
 
 
+@login_required
 def upload_and_run(request):
     """Upload CSVs and run analysis"""
     if request.method == "POST":
@@ -135,6 +137,7 @@ def upload_and_run(request):
     return render(request, "dashboard/upload.html", {"form": form})
 
 
+@login_required
 def results_view(request, analysis_id=None):
     """Display analysis results"""
     if analysis_id:
@@ -163,6 +166,7 @@ def results_view(request, analysis_id=None):
     return render(request, "dashboard/results.html", context)
 
 
+@login_required
 def predict_view(request):
     """AI Yield Prediction"""
     form = PredictForm(request.POST or None)
@@ -192,6 +196,7 @@ def predict_view(request):
     })
 
 
+@login_required
 def export_pdf(request, analysis_id=None):
     """Export analysis as PDF"""
     if analysis_id:
@@ -225,6 +230,7 @@ def export_pdf(request, analysis_id=None):
     return response
 
 
+@login_required
 def dataset_history(request):
     """View all datasets and analyses"""
     datasets = DataSet.objects.prefetch_related('stats', 'analysis').all()
@@ -236,6 +242,7 @@ def dataset_history(request):
     return render(request, "dashboard/history.html", context)
 
 
+@login_required
 def delete_analysis(request, analysis_id):
     """Delete an analysis and associated data"""
     analysis = get_object_or_404(AnalysisResult, id=analysis_id)
@@ -247,42 +254,29 @@ def delete_analysis(request, analysis_id):
 
 def signup_view(request):
     """User registration"""
-
     if request.user.is_authenticated:
         return redirect("dashboard_home")
 
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
+    form = SignUpForm(request.POST or None)
 
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-
-            # Check if the user already exists
-            from django.contrib.auth.models import User
-            if User.objects.filter(username=username).exists():
-                messages.error(request, "This account already exists. Please log in instead.")
-                return redirect("login_redirect")
-
-            # Create new user
-            user = form.save()
-            raw_password = form.cleaned_data["password1"]
-            user = authenticate(username=user.username, password=raw_password)
-
-            if user:
-                login(request, user)
-                return redirect("dashboard_home")
-
-    else:
-        form = UserCreationForm()
-
+    if request.method == "POST" and form.is_valid():
+        user = form.save()
+        login(request, user)
+        messages.success(request, f"Account created successfully for {user.username}. You are now logged in.")
+        return redirect("dashboard_home")
+    
     return render(request, "dashboard/signup.html", {"form": form})
 
 
 
 
-@require_http_methods(["GET", "POST"])
-def login_redirect_view(request):
-    """Handle login form submission"""
+def login_view(request):
+    """Handle login form submission and display login page."""
+    
+    # If the user is already authenticated, redirect to the dashboard
+    if request.user.is_authenticated:
+        return redirect('dashboard_home')
+
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -290,14 +284,16 @@ def login_redirect_view(request):
         
         if user is not None:
             login(request, user)
+            # On successful login, redirect to the main dashboard
             return redirect('dashboard_home')
         else:
-            # login failed, redirect back to dashboard (modal will show again)
-            messages.error(request, 'Invalid username or password.')
-            return redirect('dashboard_home')
+            # On failed login, show an error and re-render the login page
+            messages.error(request, 'Invalid username or password. Please try again.')
+            # Redirecting back to the login page ensures the URL is clean
+            return redirect('login')
     
-    # GET request - redirect to dashboard (modal shows for anonymous)
-    return redirect('dashboard_home')
+    # For a GET request, just render the page that contains the login form.
+    return render(request, 'dashboard/login.html')
 
 
 def logout_view(request):

@@ -15,15 +15,15 @@
                 </div>
                 <div class="flex gap-2">
                     <a href="{% url 'results' dataset.analysis.id %}" class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700">
-                        View
+                        <i class="fas fa-eye"></i> View
                     </a>
                     <a href="{% url 'export_pdf' dataset.analysis.id %}" class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
-                        PDF
+                        <i class="fas fa-file-pdf"></i> PDF
                     </a>
                     <form method="POST" action="{% url 'delete_analysis' dataset.analysis.id %}" style="display:inline;">
                         {% csrf_token %}
                         <button type="submit" onclick="return confirm('Delete this analysis?')" class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700">
-                            Delete
+                            <i class="fas fa-trash-alt"></i> Delete
                         </button>
                     </form>
                 </div>
